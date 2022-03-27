@@ -1,43 +1,45 @@
 <template>
   <div class="comment-box">
-    <h2>吃货们的讨论</h2>
+    <h2>{{info.title}}的讨论</h2>
     <div class="comment-text">
-      <a href="javascript:;" class="useravatar">
-        <img src="">
+      <a href="javascript:;" class="useravatar" v-if="isLogin">
+        <img :src="userInfo.avatar">
       </a>
-      <div  v-if="!isLogin">请先登录后，再评论<router-link to="">登录</router-link></div>
+      <div  v-if="!isLogin">请先登录后，再评论<router-link :to="{name:'login'}">登录</router-link></div>
       
-      <div class="comment-right">
+      <div class="comment-right"  v-if="isLogin">
         <el-input
           type="textarea"
           :rows="5"
           :cols="50"
           placeholder="请输入内容"
+          v-model="commentText"
         >
         </el-input>
-        <div class="comment-button" >
+        <div class="comment-button"  v-if="isLogin">
           <el-button 
             class="send-comment" 
             type="primary" 
             size="medium"
+            @click="send"
           >提交</el-button>
         </div>
       </div>
     </div>
     <div class="comment-list-box">
       <ul class="comment-list">
-        <li >
+        <li v-for="item in comments" :key="item.commentId">
           <a target="_blank" href="https://i.meishi.cc/cook.php?id=14026963" class="avatar">
            
           </a>
-          <router-link to="" class="avatar">
-            <img src="">
-            <h5></h5>
+          <router-link :to="{name:'space', query:{userId: item.userInfo.userId}}" class="avatar">
+            <img :src="item.userInfo.avatar">
+            <h5>{{item.userInfo.name}}</h5>
           </router-link>
           <div class="comment-detail">
-            <p class="p1"></p>
+            <p class="p1">{{item.commentText}}</p>
             <div class="info clearfix">
-              <span style="float: left;"></span>
+              <span style="float: left;">{{item.createdAt}}</span>
             </div>
           </div>
         </li>
@@ -50,18 +52,40 @@ import {getComments,postComment} from '@/service/api';
 export default {
   name: 'Comment',
   props:{
-
+    info: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data(){
     return {
-
+      comments: [],
+      commentText: ''
     }
   },
   computed: {
-
+    userInfo(){
+      return this.$store.state.userInfo;
+    },
+    isLogin(){
+      return this.$store.getters.isLogin;
+    }
+  },
+  async mounted(){
+    let {menuId} = this.$route.query;
+    if(menuId){
+      let data = await getComments({menuId: menuId});
+      this.comments = data.data.comments;
+    }
   },
   methods:{
-
+    async send(){
+      console.log('发送')
+      let data = await postComment({menuId: this.info.menuId, commentText: this.commentText});
+      console.log(data);
+      this.comments.unshift(data.data.comments);
+      this.commentText = '';
+    }
   }
 }
 </script>

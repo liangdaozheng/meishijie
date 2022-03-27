@@ -1,21 +1,21 @@
 <template>
   <div class="fans">
-		<div class="info-empty">
+		<div class="info-empty" v-if="!info.length">
 			<div>
-				<p>还没有被关注哦！多发布菜谱，更容易被找到。</p>
-				<p>还没有关注别人哦！可以预览菜谱，找到别人</p>
+				<p v-if="activeName === 'fans'">还没有被关注哦！多发布菜谱，更容易被找到。</p>
+				<p v-if="activeName === 'following'">还没有关注别人哦！可以预览菜谱，找到别人</p>
 			</div>
 		</div>
 		<ul class="fans clearfix">
-			<router-link to="" tag="li" >
+			<router-link :to="{name: 'space', query:{userId: item.userId}}" tag="li" v-for="item in info" :key="item.userId">
 				<a href="javascript:;" class="img">
-				<img src=""></a>
+				<img :src="item.avatar"></a>
 				<div class="c">
 					<strong class="name">
-						<router-link to=""></router-link>
+						<router-link :to="{name: 'space', query:{userId: item.userId}}">{{item.name}}</router-link>
 					</strong>
-					<em class="info"><span>粉丝：</span> 11　|　<span>关注：</span>12</em>
-					<em class="info"><span>简介：</span>这个人太懒啦！还没有介绍自己</em>
+					<em class="info"><span>粉丝：</span> {{item.follows_len}}　|　<span>关注：</span>{{item.following_len}}</em>
+					<em class="info" v-if="item.sign"><span>简介：</span>{{item.sign}}</em>
 				</div>
 			</router-link>
 		</ul>
@@ -24,7 +24,14 @@
 <script>
 export default {
 	props:{
-
+		info:{
+			type: Array,
+			default: () => []
+		},
+		activeName:{
+			type: String,
+			default: 'fans'
+		}
 	}
 }
 </script>
