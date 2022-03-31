@@ -1,6 +1,5 @@
 <template>
   <div class="login-section">
-    <!-- :rules="rules" -->
     <el-form 
       label-position="top"
       :rules="rules"
@@ -45,12 +44,11 @@ export default {
       this.$refs[formName].validate(async (valid) => {
 
         if (valid) {
-          // 在这里向后端发送登录用户名和密码
           login({
             name: this.ruleForm.name,
             password: this.ruleForm.password
           }).then((data) => {
-            if(data.code === 0) {  // 成功
+            if(data.code === 0) {  
               localStorage.setItem('token', data.data.token);
               window.location.href = '/';
             }
