@@ -1,6 +1,6 @@
 <template>
   <div class="step clearfix">
-    <div class="step-number">{{n}}.</div>
+    <div class="step-number">{{ n }}.</div>
     <div class="upload-box">
       <upload-img
         action="/api/upload?type=step"
@@ -21,57 +21,67 @@
   </div>
 </template>
 <script>
-import UploadImg from '@/components/upload-img'
+import UploadImg from "@/components/upload-img";
 export default {
-  components: {UploadImg},
-  imageUrl: 'https://s1.c.meishij.net/n/images/upload_step_img.png',
+  components: { UploadImg },
+  imageUrl: "https://s1.c.meishij.net/n/images/upload_step_img.png",
   props: {
     n: {
       type: Number,
-      default: 1
+      default: 1,
     },
     length: {
       type: Number,
-      default: 1
+      default: 1,
     },
-    value:{
+    value: {
       type: Object,
-      default:() => ({})
-    }
+      default: () => ({}),
+    },
   },
   methods: {
-    changeUrl(data){
-      this.$emit('input', {
+    changeUrl(data) {
+      this.$emit("input", {
         ...this.value,
-        img_url: data.resImgUrl
-      })
+        img_url: data.resImgUrl,
+      });
     },
-    remove(){
-      this.$emit('remove', this.n);
-    }
-  }
-}
+    remove() {
+      this.$emit("remove", this.n);
+    },
+  },
+};
 </script>
 
 <style lang="stylus">
-.step
-  margin-bottom 20px
-  > div
-    float left
-  .step-number
-    height 180px
-    width 100px
-    font-size 60px
-    color #aaa
-    font-family Arial, Helvetica, sans-serif
-    font-weight bold
-    vertical-align top
-    line-height 180px
-  .introduce-text
-    width 60%
-    margin-left 40px
-  .upload-box
-    img 
-      vertical-align top
+.step {
+  margin-bottom: 20px;
+
+  > div {
+    float: left;
+  }
+
+  .step-number {
+    height: 180px;
+    width: 100px;
+    font-size: 60px;
+    color: #aaa;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    vertical-align: top;
+    line-height: 180px;
+  }
+
+  .introduce-text {
+    width: 60%;
+    margin-left: 40px;
+  }
+
+  .upload-box {
+    img {
+      vertical-align: top;
+    }
+  }
+}
 </style>
 
