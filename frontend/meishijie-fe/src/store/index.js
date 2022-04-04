@@ -4,20 +4,20 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  state:{
+  state: {
     userInfo: {}
   },
-  getters:{
-    isLogin(state){
+  getters: {
+    isLogin(state) {
       return !!Object.keys(state.userInfo).length;
     }
   },
-  mutations:{
-    chnageUserInfo(state, data){
+  mutations: {
+    chnageUserInfo(state, data) {
       state.userInfo = data;
     }
   },
-  actions:{}
+  actions: {}
 })
 
 export default store;
