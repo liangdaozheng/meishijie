@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     loginOut() {
-      this.$confirm("真的确定要登出吗?", "提示", {
+      this.$confirm("确定要登出吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
